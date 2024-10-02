@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Token Toolkit",
+  "description": "Capture authorization tokens and provide general request info.",
+  "version": "1.0",
+  "permissions": ["webRequest", "clipboardWrite", "activeTab", "tabs"],
+  "host_permissions": ["*://*/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

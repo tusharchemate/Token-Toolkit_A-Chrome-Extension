@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Token Toolkit</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <h4><i class="fas fa-key"></i> Token Toolkit</h4>
+
+    <!-- 1st row with 2 buttons -->
+    <div class="button-container">
+      <button id="copyPathButton"><i class="fas fa-copy"></i> Copy Path</button>
+      <button id="copyDomainButton"><i class="fas fa-copy"></i> Copy Domain</button>
+    </div>
+
+    <!-- 2nd row with 1 button (full width) -->
+    <div class="button-container full-width">
+      <button id="copyTokenButton">
+        <i class="fas fa-copy"></i> Copy Token
+      </button>
+    </div>
+
+    <div id="status"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+
+</html>
