@@ -3,8 +3,8 @@
   "name": "Token Toolkit",
   "description": "Capture authorization tokens and provide general request info.",
   "version": "1.0",
-  "permissions": ["webRequest", "clipboardWrite", "activeTab", "tabs"],
-  "host_permissions": ["*://*/*"],
+  "permissions": ["webRequest", "clipboardWrite", "activeTab"],
+  "host_permissions": ["https://*/**", "http://*/**"],
   "background": {
     "service_worker": "background.js"
   },
