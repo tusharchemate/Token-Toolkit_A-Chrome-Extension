@@ -11,37 +11,43 @@ const captureToken = (info) => {
   // Ensure token is captured only from the active tab
   if (info.tabId !== activeTabId) return;
 
-  const { requestHeaders, method, url } = info;
-  const { host: authority, pathname: path } = new URL(url);
+  const { requestHeaders } = info;
 
-  if (ignoredFileTypesRegex.test(path)) {
-    console.log(`Skipping request for file type: ${path}`);
-    return;
-  }
+  chrome.tabs.get(activeTabId, (tab) => {
+    const { url } = tab;
+    const { host: authority } = new URL(url);
+    const pathname = new URL(url).pathname;
 
-  // Capture token if it's not an ignored file type
-  const authorizationHeader = requestHeaders.find(
-    ({ name }) => name.toLowerCase() === "authorization"
-  );
+    // If the request URL matches the current tab's URL
+    if (ignoredFileTypesRegex.test(pathname)) {
+      console.log(`Skipping request for file type: ${pathname}`);
+      return;
+    }
 
-  if (authorizationHeader) {
-    token = authorizationHeader.value.split(" ")[1]; // Assuming "Bearer <token>"
-    console.log(`Token captured: ${token}`);
-  }
+    // Capture token if it's not an ignored file type
+    const authorizationHeader = requestHeaders.find(
+      ({ name }) => name.toLowerCase() === "authorization"
+    );
 
-  generalInfo = {
-    method,
-    url,
-    authority,
-    path,
-  };
+    if (authorizationHeader) {
+      token = authorizationHeader.value.split(" ")[1]; // Assuming "Bearer <token>"
+      console.log(`Token captured: ${token}`);
+    }
 
-  console.log(
-    `General Info: Method - ${method}, URL - ${url}, Authority - ${authority}, Path - ${path}`
-  );
+    generalInfo = {
+      method: info.method,
+      url,
+      authority,
+      path: pathname,
+    };
 
-  // Save the token and general info in the cache for this tab
-  tabTokenStore[activeTabId] = { token, generalInfo };
+    console.log(
+      `General Info: Method - ${info.method}, URL - ${url}, Authority - ${authority}, Path - ${pathname}`
+    );
+
+    // Save the token and general info in the cache for this tab
+    tabTokenStore[activeTabId] = { token, generalInfo };
+  });
 };
 
 // Listener for capturing requests from the active tab
@@ -53,7 +59,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
 
 // Listener for tab switches
 chrome.tabs.onActivated.addListener(({ tabId }) => {
-  activeTabId = tabId; // Update active tab ID
+  activeTabId = tabId;
 
   chrome.tabs.get(activeTabId, ({ url }) => {
     console.log(`Switched to tab with URL: ${url}`);
