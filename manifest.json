@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Token Toolkit",
   "description": "Capture authorization tokens and provide general request info.",
-  "version": "1.0",
+  "version": "1.1",
   "permissions": ["webRequest", "clipboardWrite", "activeTab"],
   "host_permissions": ["https://*/**", "http://*/**"],
   "background": {
